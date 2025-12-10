@@ -68,7 +68,7 @@ def generate(num_problems, output, types, seed):
 
     try:
         QuizPrinter.html_to_pdf(html_file, output)
-        click.echo(f"✓ Successfully created {num_problems} problems and saved as PDF!")
+        click.echo(f"✓ Successfully created {len(problems)} problems and saved as PDF!")
         click.echo(f"✓ File: {Path(output).resolve()}")
     except Exception as e:
         click.echo(f"✗ Error: {str(e)}", err=True)
@@ -116,7 +116,7 @@ def generate_html(num_problems, output, types, seed):
     problems = generator.generate_quiz(num_problems=num_problems, problem_types=problem_types)
 
     QuizRenderer.save_html(problems, output)
-    click.echo(f"✓ Successfully created {num_problems} problems!")
+    click.echo(f"✓ Successfully created {len(problems)} problems!")
     click.echo(f"✓ Saved to: {Path(output).resolve()}")
 
 

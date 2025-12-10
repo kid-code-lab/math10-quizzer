@@ -1,6 +1,14 @@
-from typing import List
+from typing import List, Dict
 from jinja2 import Template
 from .problems import Problem
+
+
+TYPE_LABELS = {
+    "addition_subtraction": "Cộng & Trừ",
+    "comparison": "So Sánh",
+    "operator_fill": "Điền Toán Tử",
+    "number_fill": "Điền Số"
+}
 
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -27,38 +35,49 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             font-variation-settings: "wdth" 100;
             background: white url('../../paper.jpg') repeat;
             padding: 0;
-            min-height: 100vh;
-            font-size: 14px;
-            line-height: 20px;
-        }
-
-        .container {
-            max-width: 210mm;
-            height: 297mm;
-            margin: 0 auto;
-            overflow: hidden;
-            page-break-after: always;
+            margin: 0;
+            font-size: 28px;
+            line-height: 40px;
         }
 
         .content {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 210mm;
+            margin: 0 auto;
             padding: 20px;
-            height: 100%;
-            overflow: hidden;
         }
 
         .problems {
+            display: block;
+        }
+
+        .problem-group {
+            margin-bottom: 20px;
+        }
+
+        .group-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #333;
+        }
+
+        .group-items {
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-template-rows: auto;
             gap: 20px;
-            margin-bottom: 0;
         }
 
         .problem {
-            padding: 4px 6px;
+            padding: 8px 12px;
             border: none;
             border-radius: 0;            
-            font-size: 13px;
+            font-size: 26px;
             font-weight: 600;
             transition: none;
             position: relative;
@@ -72,53 +91,38 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         .num, .op, .blank {
             display: inline-block;
-            width: 28px;
+            width: 56px;
             text-align: center;
         }
 
         .blank {
             border: 1px solid #333;
-            height: 18px;
-            margin: 0 3px;
+            height: 36px;
+            margin: 0 6px;
             vertical-align: middle;
             position: relative;
         }
 
-        @media print {
-            body {
-                padding: 0;
-                margin: 0;
-            }
 
-            .container {
-                box-shadow: none;
-                border-radius: 0;
-                margin: 0;
-                page-break-after: always;
-            }
-
-            .problem {
-                page-break-inside: avoid;
-                border: none;
-            }
-
-            .problem:hover {
-                box-shadow: none;
-                border-color: transparent;
-            }
-        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="content">
-            <div class="problems">
-                {% for problem in problems %}
-                <div class="problem" data-number="{{ loop.index }}">
-                    {{ problem.problem_html | safe }}
+    <div class="content">
+        <div class="problems">
+            {% for group_type, group_problems in problem_groups.items() %}
+            {% if group_problems %}
+            <div class="problem-group">
+                <div class="group-title">{{ group_labels[group_type] }}</div>
+                <div class="group-items">
+                    {% for problem in group_problems %}
+                    <div class="problem" data-type="{{ problem.type }}">
+                        {{ problem.problem_html | safe }}
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
+            {% endif %}
+            {% endfor %}
         </div>
     </div>
 </body>
@@ -129,12 +133,26 @@ class QuizRenderer:
     """Renders quiz HTML from problems"""
 
     @staticmethod
+    def _group_problems_by_type(problems: List[Problem]) -> Dict[str, List[Problem]]:
+        """Group problems by their type"""
+        grouped = {}
+        type_order = ["addition_subtraction", "comparison", "operator_fill", "number_fill"]
+        
+        for problem_type in type_order:
+            grouped[problem_type] = [p for p in problems if p.type == problem_type]
+        
+        return grouped
+
+    @staticmethod
     def render_html(problems: List[Problem], title: str = "Bài Tập Toán") -> str:
         """Render problems to HTML string"""
         template = Template(HTML_TEMPLATE)
         
+        problem_groups = QuizRenderer._group_problems_by_type(problems)
+        
         html_content = template.render(
-            problems=problems,
+            problem_groups=problem_groups,
+            group_labels=TYPE_LABELS,
             title=title
         )
         

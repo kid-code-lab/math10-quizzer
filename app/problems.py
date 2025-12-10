@@ -120,16 +120,15 @@ class ProblemGenerator:
             problem_types = ["addition_subtraction", "comparison", "operator_fill", "number_fill"]
 
         problems = []
-        for _ in range(num_problems):
-            problem_type = random.choice(problem_types)
-            
-            if problem_type == "addition_subtraction":
-                problems.append(self.generate_addition_subtraction())
-            elif problem_type == "comparison":
-                problems.append(self.generate_comparison())
-            elif problem_type == "operator_fill":
-                problems.append(self.generate_operator_fill())
-            elif problem_type == "number_fill":
-                problems.append(self.generate_number_fill())
+        for problem_type in problem_types:
+            for _ in range(num_problems):
+                if problem_type == "addition_subtraction":
+                    problems.append(self.generate_addition_subtraction())
+                elif problem_type == "comparison":
+                    problems.append(self.generate_comparison())
+                elif problem_type == "operator_fill":
+                    problems.append(self.generate_operator_fill())
+                elif problem_type == "number_fill":
+                    problems.append(self.generate_number_fill())
 
         return problems
