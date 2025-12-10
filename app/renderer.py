@@ -19,7 +19,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <title>Bài Tập Toán - Math 10</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -28,16 +28,15 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         body {
-            font-family: "Roboto", sans-serif;
+            font-family: "Poppins", sans-serif;
             font-optical-sizing: auto;
             font-weight: 400;
             font-style: normal;
-            font-variation-settings: "wdth" 100;
-            background: white url('../../paper.jpg') repeat;
+            background: linear-gradient(135deg, #FFF5F7 0%, #F0F4FF 50%, #F0FFF7 100%);
             padding: 0;
             margin: 0;
-            font-size: 28px;
-            line-height: 40px;
+            font-size: 32px;
+            line-height: 1.8;
         }
 
         .content {
@@ -54,53 +53,96 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         .problem-group {
-            margin-bottom: 20px;
+            margin-bottom: 32px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
         }
 
         .group-title {
-            font-size: 20px;
+            font-size: 28px;
             font-weight: 700;
-            color: #333;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #333;
+            color: #E74C3C;
+            margin-bottom: 20px;
+            padding: 16px 0;
+            border-bottom: 4px solid #E74C3C;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 2px rgba(231, 76, 60, 0.1);
         }
 
         .group-items {
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-template-rows: auto;
-            gap: 20px;
+            gap: 24px;
         }
 
         .problem {
-            padding: 8px 12px;
+            padding: 16px 20px;
             border: none;
-            border-radius: 0;            
-            font-size: 26px;
-            font-weight: 600;
-            transition: none;
+            border-radius: 16px;            
+            font-size: 32px;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            min-height: auto;
+            min-height: 68px;
             text-align: left;
-            line-height: 1.4;
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFFBF0 100%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 2px solid rgba(255, 200, 87, 0.3);
         }
 
-        .num, .op, .blank {
+        .problem:nth-child(2n) {
+            background: linear-gradient(135deg, #F0F9FF 0%, #E6F7FF 100%);
+            border-color: rgba(46, 134, 222, 0.3);
+        }
+
+        .problem:nth-child(3n) {
+            background: linear-gradient(135deg, #F9F5FF 0%, #F0E6FF 100%);
+            border-color: rgba(162, 155, 254, 0.3);
+        }
+
+        .problem:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .num {
             display: inline-block;
-            width: 56px;
-            text-align: center;
+            color: #2E86DE;
+            font-weight: 600;
+            margin: 0 4px;
+        }
+
+        .op {
+            display: inline-block;
+            color: #A29BFE;
+            font-weight: 600;
+            margin: 0 4px;
         }
 
         .blank {
-            border: 1px solid #333;
-            height: 36px;
-            margin: 0 6px;
+            border: 3px dashed #F39C12;
+            border-radius: 12px;
+            height: 56px;
+            width: 72px;
+            margin: 0 12px;
             vertical-align: middle;
             position: relative;
+            background: linear-gradient(135deg, #FFFACD 0%, #FFFACD 100%);
+            box-shadow: inset 0 2px 6px rgba(243, 156, 18, 0.1), 0 2px 4px rgba(243, 156, 18, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .blank:hover {
+            border-color: #FF6B6B;
+            background: linear-gradient(135deg, #FFE6E6 0%, #FFE6E6 100%);
+            box-shadow: inset 0 2px 6px rgba(255, 107, 107, 0.15), 0 4px 8px rgba(255, 107, 107, 0.2);
         }
 
 

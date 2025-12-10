@@ -57,7 +57,7 @@ The output will be saved in the `output/YYYY-MM-DD/` directory.
 
 -   `--types`: Choose specific problem types.
     ```bash
-    python main.py generate --types addition_subtraction --types comparison
+    python main.py generate --types addition_subtraction --types comparison --types operator_fill --types number_fill --num-problems 50
     ```
 
 -   `--output`: Set a custom output path.
